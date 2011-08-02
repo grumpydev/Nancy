@@ -107,6 +107,11 @@
     <Compile Include="Cryptography\PassphraseKeyGenerator.cs" />
     <Compile Include="Cryptography\RandomKeyGenerator.cs" />
     <Compile Include="DefaultNancyContextFactory.cs" />
+    <Compile Include="Diagnostics\DiagnosticSession.cs" />
+    <Compile Include="Diagnostics\Hooks.cs" />
+    <Compile Include="Diagnostics\IDiagnosticSessions.cs" />
+    <Compile Include="Diagnostics\RequestDiagnostic.cs" />
+    <Compile Include="Diagnostics\TraceLog.cs" />
     <Compile Include="DynamicDictionaryValue.cs" />
     <Compile Include="ErrorHandling\DefaultErrorHandler.cs" />
     <Compile Include="ErrorHandling\IErrorHandler.cs" />
@@ -255,6 +260,7 @@
   <ItemGroup>
     <EmbeddedResource Include="ErrorHandling\Resources\500.html" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

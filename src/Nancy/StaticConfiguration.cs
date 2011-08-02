@@ -30,5 +30,19 @@ namespace Nancy
             get { return disableErrorTraces; }
             set { disableErrorTraces = value; }
         }
+
+#if DEBUG
+        private static bool enableDiagnostics = false;
+#else
+        private static bool enableDiagnostics = true;
+#endif
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable diagnostics
+        /// </summary>
+        public static bool EnableDiagnostics
+        {
+            get { return enableDiagnostics; }
+            set { enableDiagnostics = value; }
+        }
     }
 }
