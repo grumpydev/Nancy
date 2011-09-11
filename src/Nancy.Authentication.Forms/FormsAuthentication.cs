@@ -65,8 +65,8 @@ namespace Nancy.Authentication.Forms
 
             currentConfiguration = configuration;
 
-            applicationPipelines.BeforeRequest.AddItemToStartOfPipeline(GetLoadAuthenticationHook(configuration));
-            applicationPipelines.AfterRequest.AddItemToEndOfPipeline(GetRedirectToLoginHook(configuration));
+            applicationPipelines.BeforeRequest.AddItemToStartOfPipeline(GetLoadAuthenticationHook(configuration), true);
+            applicationPipelines.AfterRequest.AddItemToEndOfPipeline(GetRedirectToLoginHook(configuration), true);
         }
 
         /// <summary>
@@ -115,14 +115,16 @@ namespace Nancy.Authentication.Forms
         /// </summary>
         /// <param name="configuration">Forms authentication configuration to use</param>
         /// <returns>Pre request hook delegate</returns>
-        private static Func<NancyContext, Response> GetLoadAuthenticationHook(FormsAuthenticationConfiguration configuration)
+        private static PipelineItem<Func<NancyContext, Response>> GetLoadAuthenticationHook(FormsAuthenticationConfiguration configuration)
         {
             if (configuration == null)
             {
                 throw new ArgumentNullException("configuration");
             }
 
-            return context =>
+            return new PipelineItem<Func<NancyContext, Response>>(
+                "FormsAuthPreHook",
+                context =>
                 {
                     var userGuid = GetAuthenticatedUserFromCookie(context, configuration);
 
@@ -133,7 +135,7 @@ namespace Nancy.Authentication.Forms
                     }
 
                     return null;
-                };
+                });
         }
 
         /// <summary>
@@ -141,9 +143,11 @@ namespace Nancy.Authentication.Forms
         /// </summary>
         /// <param name="configuration">Forms authentication configuration to use</param>
         /// <returns>Post request hook delegate</returns>
-        private static Action<NancyContext> GetRedirectToLoginHook(FormsAuthenticationConfiguration configuration)
+        private static PipelineItem<Action<NancyContext>> GetRedirectToLoginHook(FormsAuthenticationConfiguration configuration)
         {
-            return context =>
+            return new PipelineItem<Action<NancyContext>>(
+                "FormsAuthPostHook",
+                context =>
                 {
                     if (context.Response.StatusCode == HttpStatusCode.Unauthorized)
                     {
@@ -153,7 +157,7 @@ namespace Nancy.Authentication.Forms
                             REDIRECT_QUERYSTRING_KEY,
                             context.ToFullPath("~" + context.Request.Path + HttpUtility.UrlEncode(context.Request.Url.Query))));
                     }
-                };
+                });
         }
 
         /// <summary>

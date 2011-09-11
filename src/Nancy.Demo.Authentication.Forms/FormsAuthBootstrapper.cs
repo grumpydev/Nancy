@@ -5,18 +5,18 @@ namespace Nancy.Demo.Authentication.Forms
 
     public class FormsAuthBootstrapper : DefaultNancyBootstrapper
     {
-        protected override void InitialiseInternal(TinyIoC.TinyIoCContainer container)
+        protected override void ConfigureApplicationContainer(TinyIoC.TinyIoCContainer container)
         {
-            base.InitialiseInternal(container);
+            base.ConfigureApplicationContainer(container);
 
-            var formsAuthConfiguration = 
+            var formsAuthConfiguration =
                 new FormsAuthenticationConfiguration()
                 {
                     RedirectUrl = "~/login",
                     UserMapper = container.Resolve<IUserMapper>(),
                 };
 
-            FormsAuthentication.Enable(this, formsAuthConfiguration);
+            container.Register(formsAuthConfiguration);
         }
     }
 }
