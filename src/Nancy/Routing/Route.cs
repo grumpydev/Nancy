@@ -34,17 +34,19 @@
         {
             var task = this.GetRouteTask(parameters);
 
-            if (task.Status == TaskStatus.Created)
-            {
-                task.Start();
-            }
-
             return task.Result;
         }
 
         private AsyncResponse GetRouteTask(DynamicDictionary parameters)
         {
-            return this.Action.Invoke(parameters);
+            var task = this.Action.Invoke(parameters);
+
+            if (task.Status == TaskStatus.Created)
+            {
+                task.Start();
+            }
+
+            return task;
         }
     }
 }

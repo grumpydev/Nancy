@@ -95,20 +95,75 @@
         /// <param name="onError">Deletate to call when any errors occur</param>
         public void HandleRequest(Request request, Action<NancyContext> onComplete, Action<Exception> onError)
         {
-            // TODO - potentially do some things sync like the pre-req hooks?
-            // Possibly not worth it as the thread pool is quite clever
-            // when it comes to fast running tasks such as ones where the prehook returns a redirect.
-            ThreadPool.QueueUserWorkItem(s =>
-                {
-                    try
+            if (request == null)
+            {
+                throw new ArgumentNullException("request", "The request parameter cannot be null.");
+            }
+
+            var context = this.contextFactory.Create();
+            context.Request = request;
+
+            var pipelines =
+                this.RequestPipelinesFactory.Invoke(context);
+
+            InvokePreRequestHook(context, pipelines.BeforeRequest);
+
+            if (context.Response != null)
+            {
+                this.PostRequestAndExecuteComplete(pipelines, context, onComplete, onError);
+            }
+
+            var resolveResult = this.resolver.Resolve(context, this.routeCache);
+
+            context.Parameters = resolveResult.Item2;
+            var resolveResultPreReq = resolveResult.Item3;
+            var resolveResultPostReq = resolveResult.Item4;
+            ExecuteRoutePreReq(context, resolveResultPreReq);
+
+            if (context.Response == null)
+            {
+                var task = resolveResult.Item1.AsyncInvoke(resolveResult.Item2);
+
+                task.ContinueWith(t =>
                     {
-                        onComplete.Invoke(this.HandleRequest(request));
-                    }
-                    catch (Exception e)
-                    {
-                        onError.Invoke(e);
-                    }
-                });
+                        context.Response = t.Result;
+
+                        if (resolveResultPostReq != null)
+                        {
+                            resolveResultPostReq.Invoke(context);
+                        }
+
+                        this.PostRequestAndExecuteComplete(pipelines, context, onComplete, onError);
+                    });
+
+                return;
+            }
+
+            if (resolveResultPostReq != null)
+            {
+                resolveResultPostReq.Invoke(context);
+            }
+
+            this.PostRequestAndExecuteComplete(pipelines, context, onComplete, onError);
+        }
+
+        private void PostRequestAndExecuteComplete(IPipelines pipelines, NancyContext context, Action<NancyContext> onComplete, Action<Exception> onError)
+        {
+            if (pipelines.AfterRequest != null)
+            {
+                pipelines.AfterRequest.Invoke(context);
+            }
+
+            if (context.Request.Method.ToUpperInvariant() == "HEAD")
+            {
+                context.Response = new HeadResponse(context.Response);
+            }
+
+            AddNancyVersionHeaderToResponse(context);
+
+            CheckErrorHandler(context);
+
+            onComplete.Invoke(context);
         }
 
         private static void AddNancyVersionHeaderToResponse(NancyContext context)

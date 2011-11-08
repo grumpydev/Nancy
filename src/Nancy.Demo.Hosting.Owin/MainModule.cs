@@ -1,6 +1,8 @@
 namespace Nancy.Demo.Hosting.Owin
 {
     using System.Linq;
+    using System.Threading;
+
     using Models;
 
     public class MainModule : NancyModule
@@ -46,6 +48,16 @@ namespace Nancy.Demo.Hosting.Owin
 
                 return View["FileUpload", model];
             };
+
+            Get["/slowTask"] = x =>
+            {
+                return new AsyncResponse(() =>
+                    {
+                        Thread.Sleep(5000);
+                        return "Done!";
+                    });
+            };
+
         }
     }
 }
