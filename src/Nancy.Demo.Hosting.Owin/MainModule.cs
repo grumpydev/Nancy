@@ -2,6 +2,7 @@ namespace Nancy.Demo.Hosting.Owin
 {
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using Models;
 
@@ -53,11 +54,10 @@ namespace Nancy.Demo.Hosting.Owin
             {
                 return new AsyncResponse(() =>
                     {
-                        Thread.Sleep(5000);
+                        Thread.Sleep(500);
                         return "Done!";
-                    });
+                    }, TaskCreationOptions.LongRunning);
             };
-
         }
     }
 }

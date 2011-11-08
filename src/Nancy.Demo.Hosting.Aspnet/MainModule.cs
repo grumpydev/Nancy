@@ -154,14 +154,13 @@ namespace Nancy.Demo.Hosting.Aspnet
                 };
 
             Get["/slowTask"] = x =>
+            {
+                return new AsyncResponse(() =>
                 {
-                    return (AsyncResponse)AsyncResponse.Factory.StartNew(
-                        () =>
-                            {
-                                Thread.Sleep(5000);
-                                return "Done!";
-                            });
-                };
+                    Thread.Sleep(500);
+                    return "Done!";
+                }, TaskCreationOptions.LongRunning);
+            };
         }
     }
 }
