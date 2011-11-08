@@ -4,6 +4,8 @@ namespace Nancy
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
+    using System.Threading.Tasks;
+
     using ModelBinding;
     using Nancy.Routing;
     using Nancy.Session;
@@ -209,7 +211,7 @@ namespace Nancy
             /// Defines a Nancy route for the specified <paramref name="path"/>.
             /// </summary>
             /// <value>A delegate that is used to invoke the route.</value>
-            public Func<dynamic, Response> this[string path]
+            public Func<dynamic, AsyncResponse> this[string path]
             {
                 set { this.AddRoute(path, null, value); }
             }
@@ -227,6 +229,15 @@ namespace Nancy
             {
                 var fullPath = string.Concat(this.parentModule.ModulePath, path);
 
+                //this.parentModule.routes.Add(new Route(this.method, fullPath, condition, value));
+                this.parentModule.routes.Add(new Route(this.method, fullPath, condition, d => new AsyncResponse(() => value.Invoke(d))));
+            }
+
+            private void AddRoute(string path, Func<NancyContext, bool> condition, Func<object, AsyncResponse> value)
+            {
+                var fullPath = string.Concat(this.parentModule.ModulePath, path);
+
+                //this.parentModule.routes.Add(new Route(this.method, fullPath, condition, value));
                 this.parentModule.routes.Add(new Route(this.method, fullPath, condition, value));
             }
         }

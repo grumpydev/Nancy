@@ -41,7 +41,7 @@
 
             public FakeNancyModuleConfigurator AddGetRoute(string path, Func<object, Response> action)
             {
-                this.module.Get[path] = action;
+                this.module.Get[path] = d => new AsyncResponse(() => action.Invoke(d));
                 return this;
             }
 

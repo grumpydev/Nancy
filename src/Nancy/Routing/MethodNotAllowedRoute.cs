@@ -1,6 +1,7 @@
 ﻿namespace Nancy.Routing
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Route that is returned when the path could be matched but it was for the wrong request method.
@@ -13,13 +14,16 @@
         {
         }
 
-        private static Response CreateMethodNotAllowedResponse(IEnumerable<string> allowedMethods)
+        private static AsyncResponse CreateMethodNotAllowedResponse(IEnumerable<string> allowedMethods)
         {
-            var response = new Response();
-            response.Headers["Allow"] = string.Join(", ", allowedMethods);
-            response.StatusCode = HttpStatusCode.MethodNotAllowed;
+            return new AsyncResponse(() =>
+                {
+                    var response = new Response();
+                    response.Headers["Allow"] = string.Join(", ", allowedMethods);
+                    response.StatusCode = HttpStatusCode.MethodNotAllowed;
 
-            return response;
+                    return response;
+                });
         }
     }
 }

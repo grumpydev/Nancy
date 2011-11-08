@@ -87,6 +87,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AsyncResponse.cs" />
     <Compile Include="Bootstrapper\AppDomainAssemblyTypeScanner.cs" />
     <Compile Include="Bootstrapper\CollectionTypeRegistration.cs" />
     <Compile Include="Bootstrapper\IPipelines.cs" />

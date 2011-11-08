@@ -1,5 +1,7 @@
 ﻿namespace Nancy.Routing
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Route that is returned when the path could not be matched.
     /// </summary>
@@ -7,7 +9,7 @@
     public class NotFoundRoute : Route
     {
         public NotFoundRoute(string method, string path)
-            : base(method, path, null, x => new NotFoundResponse())
+            : base(method, path, null, x => new AsyncResponse(() => new NotFoundResponse()))
         {
         }
     }

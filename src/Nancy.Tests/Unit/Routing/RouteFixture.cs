@@ -77,7 +77,7 @@
             parameters.foo = 10;
             parameters.bar = "value";
 
-            var route = new Route("GET", "/", null, action);
+            var route = new Route("GET", "/", null, d => new AsyncResponse(() => action.Invoke(d)));
 
             // When
             route.Invoke(parameters);
@@ -93,7 +93,7 @@
             var expectedResponse = new Response();
             Func<object, Response> action = x => expectedResponse;
 
-            var route = new Route("GET", "/", null, action);
+            var route = new Route("GET", "/", null, d => new AsyncResponse(() => action.Invoke(d)));
 
             // When
             var response = route.Invoke(new DynamicDictionary());
