@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Nancy.Tests.Functional.Modules
+﻿namespace Nancy.Tests.Functional.Modules
 {
+    using Nancy.Tests.Functional.Models;
+
     public class RazorTestModule : NancyModule
     {
         public RazorTestModule()
@@ -15,6 +12,8 @@ namespace Nancy.Tests.Functional.Modules
 
                     return View["RazorPage"];
                 };
+
+            Get["/just-model"] = _ => new MyModel();
         }
     }
 }
