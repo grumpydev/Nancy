@@ -23,7 +23,7 @@
         }
 
         [Fact]
-        public void Should_render_content_from_viewbag()
+        public void Should_be_able_to_render_a_view_that_matches_the_model_type()
         {
             // Given
             // When
