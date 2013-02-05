@@ -89,7 +89,7 @@ end
 
 desc "Executes xUnit tests using Mono"
 xunit :xunitmono => [] do |xunit|
-    tests = FileList["src/**/#{CONFIGURATIONMONO}/*.Tests.dll"].exclude(/obj\//)
+    tests = FileList["src/**/#{CONFIGURATIONMONO}/*.Tests.*.dll"].exclude(/obj\//)
 
     xunit.command = "tools/xunit/xunitmono.sh"
     xunit.assemblies = tests
