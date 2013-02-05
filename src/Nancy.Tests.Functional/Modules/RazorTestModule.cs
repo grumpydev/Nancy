@@ -13,6 +13,7 @@
                     return View["RazorPage"];
                 };
 
+            // "Model" gets stripped for view location so should find a view called "My"
             Get["/just-model"] = _ => new MyModel();
         }
     }
