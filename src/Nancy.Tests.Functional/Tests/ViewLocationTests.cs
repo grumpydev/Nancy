@@ -35,9 +35,8 @@
                 });
 
             // Then
-            Assert.True(response.Body.AsString().Contains(@"Hello Bob"));
+            var bodyString = response.Body.AsString();
+            Assert.True(bodyString.Contains(@"Hello Bob"));
         }
-
- 
     }
 }
