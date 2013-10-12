@@ -7,7 +7,7 @@
 
     public class NancyAutoStartup : IAutoStartup
     {
-        private IDictionary<string, object[]> defaultBuilderCommands;
+        private string[] defaultBuilderCommands;
 
         public string Name
         {
@@ -25,7 +25,7 @@
             }
         }
 
-        public IDictionary<string, object[]> DefaultBuilderCommands
+        public IEnumerable<string> DefaultBuilderCommands
         {
             get
             {
@@ -40,7 +40,7 @@
 
         public NancyAutoStartup()
         {
-            this.defaultBuilderCommands = new Dictionary<string, object[]> { { "UseNancy", new object[] { } } };
+            this.defaultBuilderCommands = new[] { "builder.UserNancy();" };
         }
     }
 }

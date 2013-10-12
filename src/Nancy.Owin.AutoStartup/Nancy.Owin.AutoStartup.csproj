@@ -35,8 +35,9 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Owin.AutoStartup">
-      <HintPath>..\packages\Owin.AutoStartup.0.1.0.0\lib\net40-Client\Owin.AutoStartup.dll</HintPath>
+    <Reference Include="Owin.AutoStartup, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Owin.AutoStartup.1.0.0\lib\net40\Owin.AutoStartup.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
