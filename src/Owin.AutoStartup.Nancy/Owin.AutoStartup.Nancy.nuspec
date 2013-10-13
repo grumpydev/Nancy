@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <id>Nancy.Owin.AutoStartup</id>
+    <id>Owin.AutoStartup.Nancy</id>
     <version>0.0.0</version> <!-- The real version will be added by rake -->
     <authors>Andreas Håkansson, Steven Robbins and contributors</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -19,9 +19,9 @@
     <tags>Nancy OWIN</tags>
   </metadata>
   <files>
-    <file src="build\binaries\Nancy.Owin.AutoStartup.dll" target="lib\net40" />
-    <file src="build\binaries\Nancy.Owin.AutoStartup.pdb" target="lib\net40" />
-    <file src="build\binaries\Nancy.Owin.AutoStartup.XML" target="lib\net40" />
+    <file src="build\binaries\Owin.AutoStartup.Nancy.dll" target="lib\net40" />
+    <file src="build\binaries\Owin.AutoStartup.Nancy.pdb" target="lib\net40" />
+    <file src="build\binaries\Owin.AutoStartup.Nancy.XML" target="lib\net40" />
     <file src="src\Nancy.Owin\**\*.cs" target="src" />
   </files>
 </package>

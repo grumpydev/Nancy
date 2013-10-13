@@ -1,4 +1,4 @@
-﻿namespace Nancy.Owin.AutoStartup
+﻿namespace Owin.AutoStartup.Nancy
 {
     using System.Collections.Generic;
 
