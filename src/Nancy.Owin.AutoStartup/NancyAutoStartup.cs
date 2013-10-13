@@ -40,7 +40,7 @@
 
         public NancyAutoStartup()
         {
-            this.defaultBuilderCommands = new[] { "builder.UserNancy();" };
+            this.defaultBuilderCommands = new[] { "builder.UseNancy();" };
         }
     }
 }
