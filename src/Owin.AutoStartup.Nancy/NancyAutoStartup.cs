@@ -5,10 +5,17 @@
     using global::Owin;
     using global::Owin.AutoStartup;
 
+    /// <summary>
+    /// Provides OWIN.AutoStartup support for Nancy
+    /// </summary>
     public class NancyAutoStartup : IAutoStartup
     {
-        private string[] defaultBuilderCommands;
+        private readonly string[] defaultBuilderCommands;
 
+        /// <summary>
+        /// Gets the name of the provider
+        /// e.g. Nancy, SignalR
+        /// </summary>
         public string Name
         {
             get
@@ -17,6 +24,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the path that the provider will bind to
+        /// </summary>
         public string Path
         {
             get
@@ -25,6 +35,10 @@
             }
         }
 
+        /// <summary>
+        /// Gets the default builder commands that are called in configure.
+        /// Used for generating help text.
+        /// </summary>
         public IEnumerable<string> DefaultBuilderCommands
         {
             get
@@ -33,6 +47,10 @@
             }
         }
 
+        /// <summary>
+        /// Configure the auto startup
+        /// </summary>
+        /// <param name="builder">App builder interface</param>
         public void Configuration(IAppBuilder builder)
         {
             builder.UseNancy();
