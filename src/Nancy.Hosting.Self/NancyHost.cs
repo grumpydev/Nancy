@@ -236,7 +236,7 @@
 
         private Request ConvertRequestToNancyRequest(HttpListenerRequest request)
         {
-            var baseUri = this.baseUriList.FirstOrDefault(uri => uri.IsCaseInsensitiveBaseOf(request.Url));
+            var baseUri = this.GetBaseUri(request);
 
             if (baseUri == null)
             {
@@ -284,6 +284,20 @@
                 (request.RemoteEndPoint != null) ? request.RemoteEndPoint.Address.ToString() : null,
                 certificate,
                 protocolVersion);
+        }
+
+        private Uri GetBaseUri(HttpListenerRequest request)
+        {
+            var url = this.baseUriList.FirstOrDefault(uri => uri.IsCaseInsensitiveBaseOf(request.Url));
+
+            if (url != null)
+            {
+                return url;
+            }
+
+            return this.baseUriList.Select(bu => string.Format("{0}://{1}:{2}/{3}", bu.Scheme, request.LocalEndPoint.Address, request.LocalEndPoint.Port, bu.PathAndQuery))
+                                   .Select(struri => new Uri(struri))
+                                   .FirstOrDefault(uri => uri.IsCaseInsensitiveBaseOf(request.Url));
         }
 
         private void ConvertNancyResponseToResponse(Response nancyResponse, HttpListenerResponse response)
