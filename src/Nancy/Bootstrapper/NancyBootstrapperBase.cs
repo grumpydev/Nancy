@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Linq;
 
     using Nancy.Configuration;
@@ -313,7 +314,7 @@
                                 {
                                     ContentType = "image/vnd.microsoft.icon",
                                     StatusCode = HttpStatusCode.OK,
-                                    Contents = s => s.Write(this.FavIcon, 0, this.FavIcon.Length)
+                                    Contents = (Action<Stream>)(s => s.Write(this.FavIcon, 0, this.FavIcon.Length))
                                 };
 
                             response.Headers["Cache-Control"] = "public, max-age=604800, must-revalidate";
